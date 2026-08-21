@@ -10,12 +10,11 @@ app = FastAPI(title="Northstar AI Agent", version="1.0.0")
 # (frontend on Vercel to talk to this backend)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # tighten this to your Vercel URL in production
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Serve frontend static files
 app.mount("/static", StaticFiles(directory="frontend"), name="static")
 
 
