@@ -4,6 +4,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
 from backend.models import ChatRequest, ChatResponse, AnalyticsRequest, LeadAnalytics
+from backend.agent import run_agent
+from backend.session_store import clear_session
 
 app = FastAPI(title="Northstar AI Agent", version="1.0.0")
 
@@ -14,7 +16,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 app.mount("/static", StaticFiles(directory="frontend"), name="static")
 
@@ -31,10 +32,11 @@ def health():
 
 @app.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest):
+    result = run_agent(request.session_id, request.message)
     return ChatResponse(
         session_id=request.session_id,
-        response="Agent not yet implemented.",
-        conversation_ended=False
+        response=result["response"],
+        conversation_ended=result["conversation_ended"]
     )
 
 
@@ -44,7 +46,6 @@ def analytics(request: AnalyticsRequest):
 
 
 @app.delete("/session/{session_id}")
-def clear_session(session_id: str):
-    from backend.session_store import clear_session as _clear
-    _clear(session_id)
+def delete_session(session_id: str):
+    clear_session(session_id)
     return {"cleared": True, "session_id": session_id}
