@@ -80,7 +80,7 @@ def run_agent(session_id: str, user_message: str) -> dict:
     )
 
     # Step 2: Agentic loop
-    max_iterations = 5
+    max_iterations = 10
     iteration = 0
     response_text = ""
 
