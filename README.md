@@ -37,3 +37,17 @@ lead score (0–100), interest level, objections raised, conversation summary
 full conversation context maintained across multiple turns
 ### No hallucination: 
 agent is constrained to only state facts provided in the system prompt
+
+## Tech Stack
+
+| Layer | Tool |
+|---|---|
+| LLM | Google Gemini 2.0 Flash |
+| Backend | FastAPI (Python) |
+| Session Memory | In-memory session store |
+| Data Validation | Pydantic v2 |
+| Frontend | HTML + CSS + Vanilla JS |
+| Deploy (backend) | Render |
+| Deploy (frontend) | Vercel |
+
+---
