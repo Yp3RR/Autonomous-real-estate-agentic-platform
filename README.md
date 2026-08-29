@@ -108,4 +108,65 @@ Structured lead card (JSON) returned to frontend
 ```
 
 ---
+## Agent Capabilities (System Prompt Coverage)
+
+| Scenario | Handled |
+|---|---|
+| Natural greeting and qualification | ✅ |
+| English / Hindi / Hinglish | ✅ |
+| Price objection | ✅ |
+| "I'm just exploring" | ✅ |
+| "Call me later" | ✅ |
+| "Stop contacting me" | ✅ |
+| Unknown questions (no hallucination) | ✅ |
+| Site visit booking | ✅ |
+| Booking failure fallback | ✅ |
+| Human escalation | ✅ |
+| Lead logging at conversation end | ✅ |
+
+---
+## How to Run Locally
+
+**1. Clone the repo**
+```bash
+git clone https://github.com/Yp3RR/northstar-ai-agent.git
+cd northstar-ai-agent
+```
+
+**2. Create and activate a virtual environment**
+```bash
+python -m venv .venv
+
+# Windows
+.venv\Scripts\activate
+
+# Mac/Linux
+source .venv/bin/activate
+```
+
+**3. Install dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+**4. Set up environment variables**
+```bash
+cp .env.example .env
+# Add your Gemini API key to .env
+# Get a free key at: https://aistudio.google.com/app/apikey
+```
+
+**5. Run the server**
+```bash
+python -m uvicorn backend.main:app --reload
+```
+
+**6. Open in browser**
+```
+http://127.0.0.1:8000
+```
+
+Or test the API directly at `http://127.0.0.1:8000/docs`
+
+---
 
