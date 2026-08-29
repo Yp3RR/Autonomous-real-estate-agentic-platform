@@ -81,4 +81,31 @@ northstar-ai-agent/
 ├── .env.example
 └── README.md
 ```
+## How It Works
+
+```
+User message
+      ↓
+FastAPI /chat endpoint
+      ↓
+agent.py — loads session history + system prompt
+      ↓
+Gemini API (with tool definitions)
+      ↓ (if tool call returned)
+tools.py — executes tool, returns result to Gemini
+      ↓ (loop until text response)
+Final response saved to session store
+      ↓
+Response returned to frontend
+
+── conversation ends ──
+
+FastAPI /analytics endpoint
+      ↓
+analytics.py — reads full history, sends to Gemini
+      ↓
+Structured lead card (JSON) returned to frontend
+```
+
+---
 
