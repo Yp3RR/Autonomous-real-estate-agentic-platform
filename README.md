@@ -40,14 +40,14 @@ agent is constrained to only state facts provided in the system prompt
 
 ## Tech Stack
 
-| Layer | Tool |
-|---|---|
-| LLM | Google Gemini 2.0 Flash |
-| Backend | FastAPI (Python) |
+| Layer | Tool                    |
+|---|-------------------------|
+| LLM | Google Gemini 3.6 Flash |
+| Backend | FastAPI (Python)        |
 | Session Memory | In-memory session store |
-| Data Validation | Pydantic v2 |
+| Data Validation | Pydantic v2             |
 | Frontend | HTML + CSS + Vanilla JS |
-| Deploy (backend) | Render |
-| Deploy (frontend) | Vercel |
+| Deploy (backend) | Render                  |
+| Deploy (frontend) | Vercel                  |
 
 ---
