@@ -196,4 +196,12 @@ Or test the API directly at `http://127.0.0.1:8000/docs`
 ```
 
 ---
+## Key Assumptions
+
+- Session memory is in-memory — restarting the server clears all sessions (persistent DB planned)
+- Booking and availability are simulated — no real calendar or CRM integration
+- The agent never reveals it is an AI unless directly and sincerely asked
+- All project facts (pricing, area, amenities) are sourced only from the system prompt — no external data fetch
+
+---
 
