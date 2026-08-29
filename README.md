@@ -169,4 +169,31 @@ http://127.0.0.1:8000
 Or test the API directly at `http://127.0.0.1:8000/docs`
 
 ---
+## API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/chat` | Send a message, get agent response |
+| POST | `/analytics` | Generate lead summary for a session |
+| DELETE | `/session/{id}` | Clear conversation history |
+| GET | `/health` | Health check |
+
+**Sample `/chat` request:**
+```json
+{
+  "session_id": "user-abc123",
+  "message": "Hi, I'm looking for a 3BHK in Gurugram"
+}
+```
+
+**Sample `/chat` response:**
+```json
+{
+  "session_id": "user-abc123",
+  "response": "Hi! I'm Dhruv from Northstar Homes...",
+  "conversation_ended": false
+}
+```
+
+---
 
