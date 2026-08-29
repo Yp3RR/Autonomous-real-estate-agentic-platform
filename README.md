@@ -204,4 +204,12 @@ Or test the API directly at `http://127.0.0.1:8000/docs`
 - All project facts (pricing, area, amenities) are sourced only from the system prompt — no external data fetch
 
 ---
+## Known Limitations
+
+- In-memory sessions do not survive server restarts
+- No rate limiting on API endpoints (planned)
+- No authentication on session endpoints — any client can clear any session by ID
+- Analytics generation makes an additional Gemini API call — adds ~2s latency
+
+---
 
