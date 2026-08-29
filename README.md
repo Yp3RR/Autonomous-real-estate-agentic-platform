@@ -51,3 +51,34 @@ agent is constrained to only state facts provided in the system prompt
 | Deploy (frontend) | Vercel                  |
 
 ---
+## Project Structure
+
+```
+northstar-ai-agent/
+│
+├── backend/
+│   ├── main.py              # FastAPI app — all routes
+│   ├── agent.py             # Agentic loop — Gemini + tool call handling
+│   ├── tools.py             # Tool definitions + simulated implementations
+│   ├── session_store.py     # In-memory conversation history per session
+│   ├── analytics.py         # Post-conversation lead analytics generator
+│   ├── models.py            # Pydantic request/response schemas
+│   └── config.py            # Environment variable loader
+│
+├── prompts/
+│   └── v1_system_prompt.md  # System prompt — agent identity, facts, conversation flow
+│
+├── frontend/
+│   ├── index.html           # Chat UI
+│   ├── style.css            # Styling
+│   └── app.js               # API calls, message rendering, analytics modal
+│
+├── tests/
+│   └── TEST_CASES.md        # Conversation scenarios with expected vs actual output
+│
+├── render.yaml              # Render deployment config
+├── requirements.txt
+├── .env.example
+└── README.md
+```
+
