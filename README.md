@@ -20,3 +20,20 @@ When a customer asks to book a site visit, Gemini decides to:
 
 None of that sequence is hardcoded. The LLM decides what to call, when, and in what order — based on the conversation context. That's the agentic part.
 
+## Features
+### Multilingual — 
+natural conversation in English, Hindi, and Hinglish
+### Lead qualification — 
+understands budget, configuration preference, timeline, and intent
+### Agentic tool use — 
+checks availability, books visits, escalates, logs leads autonomously
+### Objection handling — 
+price concerns, "call me later", "stop contacting me" all handled gracefully
+### Booking failure handling — 
+15% simulated failure rate with proper fallback behaviour
+### Post-conversation analytics — 
+lead score (0–100), interest level, objections raised, conversation summary
+### Session memory — 
+full conversation context maintained across multiple turns
+### No hallucination — 
+agent is constrained to only state facts provided in the system prompt
