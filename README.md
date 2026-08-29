@@ -212,4 +212,34 @@ Or test the API directly at `http://127.0.0.1:8000/docs`
 - Analytics generation makes an additional Gemini API call — adds ~2s latency
 
 ---
+## Roadmap
+
+### In Progress
+- [ ] Frontend UI (chat interface + analytics modal)
+
+### Planned
+- [ ] **Persistent storage** — SQLite or PostgreSQL to survive server restarts
+- [ ] **Structured logging** — JSON logs with session ID, tool calls, latency, errors
+- [ ] **Input validation + guardrails** — prompt injection detection, input length limits
+- [ ] **Eval script** — automated test suite scoring agent behaviour across 10+ scenarios
+- [ ] **Rate limiting** — per-session request throttling
+- [ ] **Observability** — Helicone integration for LLM call tracing and token usage dashboard
+- [ ] **Prompt versioning** — A/B eval comparing v1 vs v2 system prompt performance
+- [ ] **Containerization** — Docker + docker-compose for local and production
+- [ ] **Deployment** — Render (backend) + Vercel (frontend)
+
+---
+
+## AI Tools Used
+
+- **Google Gemini 2.0 Flash** — LLM powering the agent and analytics pipeline
+- **Claude (Anthropic)** — used during development for code assistance, architecture decisions, and prompt engineering iteration
+
+---
+
+## Author
+
+**Yash Patil**
+B.E. Electrical & Electronics + M.Sc. Mathematics — BITS Pilani Goa
+[GitHub](https://github.com/Yp3RR) · [Email](mailto:yashpatil1492@gmail.com)
 
