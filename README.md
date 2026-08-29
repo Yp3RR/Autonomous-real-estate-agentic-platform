@@ -5,3 +5,18 @@ Built with FastAPI and Google Gemini — the agent autonomously qualifies leads,
 books site visits via real tool calls, and generates structured lead analytics after every conversation.
 
 ### Status: *Active development — backend complete, frontend and production hardening in progress.*
+
+## What Makes This Agentic
+
+Most real estate chatbots are scripted — if user says "book" → show booking form. This agent is different.
+
+When a customer asks to book a site visit, Gemini decides to:
+
+1. Call check_availability() to verify slots exist
+2. Collect the customer's name and phone naturally through conversation
+3. Call book_site_visit() with the collected details
+4. If booking fails → call escalate_to_human() and explain the situation
+5. Call log_lead() before ending with all gathered intelligence
+
+None of that sequence is hardcoded. The LLM decides what to call, when, and in what order — based on the conversation context. That's the agentic part.
+
