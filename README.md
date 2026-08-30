@@ -22,6 +22,8 @@ When a customer asks to book a site visit, Gemini decides to:
 
 None of that sequence is hardcoded. The LLM decides what to call, when, and in what order — based on the conversation context. That's the agentic part.
 
+---
+
 ## Features
 ### Multilingual: 
 natural conversation in English, Hindi, and Hinglish
