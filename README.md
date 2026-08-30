@@ -6,6 +6,8 @@ books site visits via real tool calls, and generates structured lead analytics a
 
 ### Status: *Active development — backend complete, frontend and production hardening in progress.*
 
+ ---
+
 ## What Makes This Agentic
 
 Most real estate chatbots are scripted — if user says "book" → show booking form. This agent is different.
