@@ -42,6 +42,8 @@ full conversation context maintained across multiple turns
 ### No hallucination: 
 agent is constrained to only state facts provided in the system prompt
 
+---
+
 ## Tech Stack
 
 | Layer | Tool                    |
