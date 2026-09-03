@@ -4,8 +4,8 @@ An agentic AI sales assistant for Northstar One, a residential project in Sector
 Built with FastAPI and Google Gemini — the agent autonomously qualifies leads, answers project queries, 
 books site visits via real tool calls, and generates structured lead analytics after every conversation.
 
-### Status: *Active development — backend complete, frontend and production hardening in progress.*
-
+### Status: *Active development — frontend polish and production hardening in progress.*
+**Live:** (https://autonomous-real-estate-agentic-platform.onrender.com/)
  ---
 
 ## What Makes This Agentic
@@ -193,7 +193,7 @@ Or test the API directly at `http://127.0.0.1:8000/docs`
 ```
 
 **Sample `/chat` response:**
-```json
+```json     
 {
   "session_id": "user-abc123",
   "response": "Hi! I'm Dhruv from Northstar Homes...",
