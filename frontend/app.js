@@ -43,18 +43,9 @@ async function sendMessage() {
 }
 
 addMessage("agent", `
-**Northstar One — 3 BHK Options**
-
-We have two configurations:
-
-- **3 BHK + 3T** — ₹1.75 Cr onwards
-- **3 BHK + Servant Room** — ₹2.10 Cr onwards
-
-### Payment Plan
-- Booking: 10%
-- On possession: 10%
-
-Are you interested in self-use or investment?
+Hi, I am Dhruv, your sales assisstant, feel free to look around and ask any questions
+regarding our project/scheme, or if you are looking to buy a flat for housing or 
+investment purposes, I am here to help.
 `);
 
 sendBtn.addEventListener("click", sendMessage);
