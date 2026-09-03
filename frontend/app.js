@@ -42,6 +42,21 @@ async function sendMessage() {
   }
 }
 
+addMessage("agent", `
+**Northstar One — 3 BHK Options**
+
+We have two configurations:
+
+- **3 BHK + 3T** — ₹1.75 Cr onwards
+- **3 BHK + Servant Room** — ₹2.10 Cr onwards
+
+### Payment Plan
+- Booking: 10%
+- On possession: 10%
+
+Are you interested in self-use or investment?
+`);
+
 sendBtn.addEventListener("click", sendMessage);
 inputEl.addEventListener("keydown", (e) => {
   if (e.key === "Enter") sendMessage();
