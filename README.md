@@ -221,7 +221,7 @@ Or test the API directly at `http://127.0.0.1:8000/docs`
 ## Roadmap
 
 ### In Progress
-- [ ] Frontend UI (chat interface + analytics modal)
+- [ ] **Deployment** — Render (backend) + Vercel (frontend)
 
 ### Planned
 - [ ] **Persistent storage** — SQLite or PostgreSQL to survive server restarts
@@ -232,7 +232,6 @@ Or test the API directly at `http://127.0.0.1:8000/docs`
 - [ ] **Observability** — Helicone integration for LLM call tracing and token usage dashboard
 - [ ] **Prompt versioning** — A/B eval comparing v1 vs v2 system prompt performance
 - [ ] **Containerization** — Docker + docker-compose for local and production
-- [ ] **Deployment** — Render (backend) + Vercel (frontend)
 
 ---
 
