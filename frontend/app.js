@@ -17,7 +17,7 @@ function addMessage(role, text) {
       ? "align-self: flex-end; background: #c9a84c; color: #1a1a1a;"
       : "align-self: flex-start; background: #2a2a2a; color: #f0ece0;"}
   `;
-  div.textContent = text;
+  div.innerHTML = marked.parse(text);
   messagesEl.appendChild(div);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
