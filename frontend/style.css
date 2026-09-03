@@ -103,6 +103,10 @@ nav a {
   display: flex;
   flex-direction: column;
   gap: 12px;
+    #messages div p { margin-bottom: 8px; }
+    #messages div ul { padding-left: 20px; }
+    #messages div strong { font-weight: bold; }
+    #messages div h3 { font-size: 1rem; margin-bottom: 4px; }
 }
 
 #input-bar {
