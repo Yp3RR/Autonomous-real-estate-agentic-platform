@@ -237,7 +237,7 @@ Or test the API directly at `http://127.0.0.1:8000/docs`
 
 ## AI Tools Used
 
-- **Google Gemini 2.0 Flash** — LLM powering the agent and analytics pipeline
+- **Google Gemini 3.6 Flash** — LLM powering the agent and analytics pipeline
 - **Claude (Anthropic)** — used during development for code assistance, architecture decisions, and prompt engineering iteration
 
 ---
