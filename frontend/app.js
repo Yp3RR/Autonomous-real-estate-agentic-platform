@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8000";
+const API_URL = "https://autonomous-real-estate-agentic-platform.onrender.com";
 const sessionId = crypto.randomUUID();
 
 const messagesEl = document.getElementById("messages");
