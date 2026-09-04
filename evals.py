@@ -1,5 +1,6 @@
 import requests
 import uuid
+import time
 import json
 
 # BASE_URL = "http://localhost:8000"
@@ -10,9 +11,8 @@ ANALYTICS_URL = f"{BASE_URL}/analytics"
 
 
 def chat(session_id, message):
+    time.sleep(3)
     res = requests.post(CHAT_URL, json={"session_id": session_id, "message": message})
-    print("STATUS:", res.status_code)
-    print("RAW:", res.text[:200])
     return res.json()
 
 
