@@ -11,7 +11,7 @@ ANALYTICS_URL = f"{BASE_URL}/analytics"
 
 
 def chat(session_id, message):
-    time.sleep(8)
+    time.sleep(15)
     res = requests.post(CHAT_URL, json={"session_id": session_id, "message": message})
     if res.status_code != 200:
         print(f"WARNING: Got {res.status_code} — skipping")
