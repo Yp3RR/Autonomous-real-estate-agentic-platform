@@ -2,8 +2,8 @@ import requests
 import uuid
 import json
 
-BASE_URL = "http://localhost:8000"
-# BASE_URL = "https://autonomous-real-estate-agentic-platform.onrender.com"
+# BASE_URL = "http://localhost:8000"
+BASE_URL = "https://autonomous-real-estate-agentic-platform.onrender.com"
 
 CHAT_URL = f"{BASE_URL}/chat"
 ANALYTICS_URL = f"{BASE_URL}/analytics"
