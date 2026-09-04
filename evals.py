@@ -11,10 +11,11 @@ ANALYTICS_URL = f"{BASE_URL}/analytics"
 
 
 def chat(session_id, message):
-    time.sleep(3)
+    time.sleep(8)
     res = requests.post(CHAT_URL, json={"session_id": session_id, "message": message})
-    print("STATUS:", res.status_code)
-    print("RAW:", res.text[:300])
+    if res.status_code != 200:
+        print(f"WARNING: Got {res.status_code} — skipping")
+        return {"response": ""}
     return res.json()
 
 
