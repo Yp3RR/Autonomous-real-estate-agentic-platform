@@ -13,6 +13,8 @@ ANALYTICS_URL = f"{BASE_URL}/analytics"
 def chat(session_id, message):
     time.sleep(3)
     res = requests.post(CHAT_URL, json={"session_id": session_id, "message": message})
+    print("STATUS:", res.status_code)
+    print("RAW:", res.text[:300])
     return res.json()
 
 
