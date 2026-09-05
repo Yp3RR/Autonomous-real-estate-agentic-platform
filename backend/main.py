@@ -63,4 +63,4 @@ def delete_session(session_id: str):
     return {"cleared": True, "session_id": session_id}
 
 
-app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
+app.mount("/Images", StaticFiles(directory="frontend/Images"), name="images")
