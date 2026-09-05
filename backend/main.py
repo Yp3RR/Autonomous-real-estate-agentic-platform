@@ -8,9 +8,13 @@ from backend.agent import run_agent
 from backend.session_store import clear_session
 from backend.analytics import generate_analytics
 
+from logger import get_logger, log_request, log_response, log_error
+import time
+
+logger = get_logger()
+
 app = FastAPI(title="Northstar AI Agent", version="1.0.0")
 
-# (frontend on Vercel to talk to this backend)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -33,12 +37,20 @@ def health():
 
 @app.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest):
-    result = run_agent(request.session_id, request.message)
-    return ChatResponse(
-        session_id=request.session_id,
-        response=result["response"],
-        conversation_ended=result["conversation_ended"]
-    )
+    log_request(logger, request.session_id, request.message)
+    start = time.time()
+    try:
+        result = run_agent(request.session_id, request.message)
+        duration = (time.time() - start) * 1000
+        log_response(logger, request.session_id, result["response"], duration, result.get("tools_fired", []))
+        return ChatResponse(
+            session_id=request.session_id,
+            response=result["response"],
+            conversation_ended=result["conversation_ended"]
+        )
+    except Exception as e:
+        log_error(logger, request.session_id, e)
+        raise
 
 
 @app.post("/analytics", response_model=LeadAnalytics)
