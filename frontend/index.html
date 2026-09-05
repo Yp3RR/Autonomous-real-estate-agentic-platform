@@ -4,49 +4,137 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Northstar One — Sector 79, Gurugram</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
 
   <!-- HEADER -->
-  <header>
+  <header id="header">
     <div class="logo">Northstar One</div>
     <nav>
       <a href="#about">About</a>
+      <a href="#properties">Residences</a>
       <a href="#chat">Talk to Dhruv</a>
     </nav>
   </header>
 
   <!-- HERO -->
   <section id="hero">
-    <h1>Northstar One</h1>
-    <p class="tagline">Sector 79, Gurugram</p>
-    <div class="stats">
-      <div class="stat"><span class="value">2BHK</span><span class="label">from ₹1.35 Cr</span></div>
-      <div class="stat"><span class="value">3BHK</span><span class="label">from ₹1.75 Cr</span></div>
-      <div class="stat"><span class="value">RERA</span><span class="label">Registered</span></div>
+    <!-- Replace with: style="background-image: url('your-hero.jpg')" on #hero -->
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-location">Sector 79, Gurugram</p>
+      <h1>Where Gurugram's<br>finest address begins.</h1>
+      <a href="#chat" class="hero-cta">Speak with our advisor</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="stat-val">2 BHK</span>
+        <span class="stat-label">from ₹1.35 Cr</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="hero-stat">
+        <span class="stat-val">3 BHK</span>
+        <span class="stat-label">from ₹1.75 Cr</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="hero-stat">
+        <span class="stat-val">RERA</span>
+        <span class="stat-label">Registered</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-inner">
+      <p class="about-lead">Premium residences designed for those who expect more — more space, more light, more life.</p>
+      <div class="about-body">
+        <p>Northstar One is a RERA-registered development in one of Gurugram's most sought-after corridors. Thoughtfully designed 2 and 3 BHK apartments with modern finishes, open floor plans, and seamless connectivity to Dwarka Expressway and NH-48.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROPERTIES -->
+  <section id="properties">
+    <div class="properties-grid">
+
+      <div class="property-card">
+        <div class="property-image" id="img-2bhk">
+          <div class="property-tag">2 BHK</div>
+        </div>
+        <div class="property-details">
+          <p class="property-price">Starting at ₹1.35 Cr</p>
+          <h3>Two Bedroom Residences</h3>
+          <p class="property-desc">950–1,100 sq ft layouts with premium fixtures, ample storage, and dedicated covered parking.</p>
+          <a href="#chat" class="property-link">Enquire with Dhruv</a>
+        </div>
+      </div>
+
+      <div class="property-card">
+        <div class="property-image" id="img-3bhk">
+          <div class="property-tag">3 BHK</div>
+        </div>
+        <div class="property-details">
+          <p class="property-price">Starting at ₹1.75 Cr</p>
+          <h3>Three Bedroom Residences</h3>
+          <p class="property-desc">1,350–1,600 sq ft homes with a study nook, large balcony, and panoramic city and green views.</p>
+          <a href="#chat" class="property-link">Enquire with Dhruv</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- AGENT CTA BANNER -->
+  <section id="agent-cta" >
+    <div class="agent-cta-inner">
+      <h2>Have questions? Dhruv knows every detail.</h2>
+      <p>Our AI sales advisor is available 24/7 — ask about pricing, floor plans, payment schedules, or site visits.</p>
+      <a href="#chat" class="cta-btn">Start a conversation</a>
     </div>
   </section>
 
   <!-- CHAT -->
   <section id="chat">
-    <h2>Talk to Dhruv</h2>
-    <p>Your AI sales advisor, available 24/7.</p>
-
-    <div id="chat-window">
-      <div id="messages">
-        <!-- messages go here -->
+    <div class="chat-container">
+      <div class="chat-header">
+        <div class="agent-avatar">D</div>
+        <div class="agent-meta">
+          <p class="agent-name">Dhruv</p>
+          <p class="agent-status">AI Sales Advisor &middot; Online</p>
+        </div>
       </div>
+      <div id="messages"></div>
       <div id="input-bar">
-        <input type="text" id="user-input" placeholder="Ask anything about Northstar One..." />
-        <button id="send-btn">Send</button>
+        <input type="text" id="user-input" placeholder="Ask anything about Northstar One..." autocomplete="off" />
+        <button id="send-btn" aria-label="Send">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
       </div>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <p>© 2026 Northstar One. All rights reserved.</p>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <p class="footer-logo">Northstar One</p>
+        <p class="footer-address">Sector 79, Gurugram, Haryana</p>
+      </div>
+      <div class="footer-links">
+        <a href="#about">About</a>
+        <a href="#properties">Residences</a>
+        <a href="#chat">Talk to Dhruv</a>
+      </div>
+    </div>
+    <p class="footer-legal">RERA Registered &nbsp;&middot;&nbsp; &copy; 2026 Northstar One. All rights reserved.</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
