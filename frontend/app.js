@@ -5,21 +5,31 @@ const messagesEl = document.getElementById("messages");
 const inputEl = document.getElementById("user-input");
 const sendBtn = document.getElementById("send-btn");
 
+// Header scroll effect — transparent over hero, solid when scrolled
+window.addEventListener("scroll", () => {
+  document.getElementById("header").classList.toggle("scrolled", window.scrollY > 60);
+});
+
 function addMessage(role, text) {
   const div = document.createElement("div");
-  div.style.cssText = `
-    padding: 10px 14px;
-    border-radius: 6px;
-    max-width: 80%;
-    font-size: 0.92rem;
-    line-height: 1.5;
-    ${role === "user"
-      ? "align-self: flex-end; background: #c9a84c; color: #1a1a1a;"
-      : "align-self: flex-start; background: #2a2a2a; color: #f0ece0;"}
-  `;
+  div.className = role === "user" ? "msg-user" : "msg-agent";
   div.innerHTML = marked.parse(text);
   messagesEl.appendChild(div);
   messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function showTyping() {
+  const el = document.createElement("div");
+  el.className = "typing-indicator";
+  el.id = "typing-indicator";
+  el.innerHTML = "<span></span><span></span><span></span>";
+  messagesEl.appendChild(el);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function removeTyping() {
+  const el = document.getElementById("typing-indicator");
+  if (el) el.remove();
 }
 
 async function sendMessage() {
@@ -28,6 +38,8 @@ async function sendMessage() {
 
   addMessage("user", message);
   inputEl.value = "";
+  sendBtn.disabled = true;
+  showTyping();
 
   try {
     const res = await fetch(`${API_URL}/chat`, {
@@ -36,19 +48,26 @@ async function sendMessage() {
       body: JSON.stringify({ session_id: sessionId, message }),
     });
     const data = await res.json();
+    removeTyping();
     addMessage("agent", data.response);
   } catch (err) {
-    addMessage("agent", "Something went wrong. Is the backend running?");
+    removeTyping();
+    addMessage("agent", "Something went wrong. Please try again in a moment.");
+  } finally {
+    sendBtn.disabled = false;
+    inputEl.focus();
   }
 }
 
-addMessage("agent", `
-Hi, I am Dhruv, your sales assisstant, feel free to look around and ask any questions
-regarding our project/scheme, or if you are looking to buy a flat for housing or 
-investment purposes, I am here to help.
-`);
+// Welcome message
+addMessage(
+  "agent",
+  "Hi, I'm Dhruv — your personal advisor for Northstar One. " +
+  "Whether you're looking to invest or find a home, I'm here to help. " +
+  "What would you like to know?"
+);
 
 sendBtn.addEventListener("click", sendMessage);
 inputEl.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") sendMessage();
+  if (e.key === "Enter" && !e.shiftKey) sendMessage();
 });
