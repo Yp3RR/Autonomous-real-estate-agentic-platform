@@ -22,8 +22,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
-
 
 @app.get("/")
 def root():
@@ -63,3 +61,6 @@ def analytics(request: AnalyticsRequest):
 def delete_session(session_id: str):
     clear_session(session_id)
     return {"cleared": True, "session_id": session_id}
+
+
+app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
