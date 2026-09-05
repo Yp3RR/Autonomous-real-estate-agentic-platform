@@ -3,6 +3,8 @@ from google.genai import types
 from backend.config import GEMINI_API_KEY, MODEL_NAME
 from backend.session_store import get_history, add_message
 from backend.tools import TOOL_DEFINITIONS, execute_tool
+from logger import get_logger, log_tool_fired
+logger = get_logger()
 import pathlib
 
 # Configure Gemini client
@@ -122,6 +124,7 @@ def run_agent(session_id: str, user_message: str) -> dict:
                 print(f"[Agent] Tool call: {tool_name}({tool_args})")
 
                 result = execute_tool(tool_name, tool_args)
+                log_tool_fired(logger, session_id, tool_name, result)
 
                 tool_response_parts.append(
                     types.Part(
