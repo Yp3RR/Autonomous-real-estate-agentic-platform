@@ -27,6 +27,14 @@ app.add_middleware(
 def root():
     return FileResponse("frontend/index.html")
 
+@app.get("/style.css")
+def get_css():
+    return FileResponse("frontend/style.css")
+
+@app.get("/app.js")
+def get_js():
+    return FileResponse("frontend/app.js")
+
 
 @app.get("/health")
 def health():
