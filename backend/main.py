@@ -29,11 +29,11 @@ def root():
 
 @app.get("/style.css")
 def get_css():
-    return FileResponse("frontend/style.css")
+    return FileResponse("frontend/style.css", media_type="text/css")
 
 @app.get("/app.js")
 def get_js():
-    return FileResponse("frontend/app.js")
+    return FileResponse("frontend/app.js", media_type="application/javascript")
 
 
 @app.get("/health")
