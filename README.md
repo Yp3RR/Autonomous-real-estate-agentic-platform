@@ -221,14 +221,10 @@ Or test the API directly at `http://127.0.0.1:8000/docs`
 ## Roadmap
 
 ### In Progress
-- [ ] **Eval script** — automated test suite scoring agent behaviour across 10+ scenarios
+- [ ] **Containerization** — Docker + docker-compose for local and production
 
 ### Planned
-- [ ] **Persistent storage** — SQLite or PostgreSQL to survive server restarts
-- [ ] **Structured logging** — JSON logs with session ID, tool calls, latency, errors
-- [ ] **Input validation + guardrails** — prompt injection detection, input length limits
 - [ ] **Rate limiting** — per-session request throttling
-- [ ] **Containerization** — Docker + docker-compose for local and production
 
 ---
 
