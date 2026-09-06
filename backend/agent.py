@@ -74,6 +74,7 @@ def _call_gemini_with_retry(client, model, contents, config, retries=3, delay=2)
 
 
 def run_agent(session_id: str, user_message: str) -> dict:
+    add_message(session_id, "user", user_message)
     # Step 1: Build conversation history
     history = get_history(session_id)
     contents = _history_to_contents(history)
@@ -157,8 +158,11 @@ def run_agent(session_id: str, user_message: str) -> dict:
         response_text = "I'm sorry, something went wrong. Please try again."
 
     # Step 3: Save to session history
-    add_message(session_id, "user", user_message)
-    add_message(session_id, "model", response_text)
+    try:
+        add_message(session_id, "user", user_message)
+        add_message(session_id, "model", response_text)
+    except Exception as e:
+        print(f"[DB ERROR] {e}")
 
     # Step 4: Return
     return {

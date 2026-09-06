@@ -10,7 +10,9 @@ from backend.analytics import generate_analytics
 
 from logger import get_logger, log_request, log_response, log_error
 import time
+import logging
 
+logging.basicConfig(level=logging.DEBUG)
 logger = get_logger()
 
 app = FastAPI(title="Northstar AI Agent", version="1.0.0")

@@ -1,11 +1,14 @@
 import sqlite3
 import json
 from typing import List
+import os
 
 DB_PATH = "sessions.db"
 
 
+
 def _get_connection():
+    print(f"[DB] Creating/connecting at: {os.path.abspath(DB_PATH)}")
     conn = sqlite3.connect(DB_PATH)
     conn.execute("""
         CREATE TABLE IF NOT EXISTS sessions (
@@ -31,6 +34,7 @@ def get_history(session_id: str) -> List[dict]:
 
 
 def add_message(session_id: str, role: str, text: str):
+    print(f"[DB] add_message called: {role} - {text[:30]}", flush=True)
     conn = _get_connection()
     conn.execute(
         "INSERT INTO sessions (session_id, role, parts) VALUES (?, ?, ?)",

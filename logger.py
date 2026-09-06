@@ -41,6 +41,7 @@ def get_logger(name: str = "northstar") -> logging.Logger:
         logger.addHandler(console_handler)
 
         log_dir = "logs"
+        print(f"[LOGGER] Writing logs to: {os.path.abspath('logs/northstar.log')}", flush=True)
         os.makedirs(log_dir, exist_ok=True)
         file_handler = logging.FileHandler(os.path.join(log_dir, "northstar.log"))
         file_handler.setFormatter(JSONFormatter())
