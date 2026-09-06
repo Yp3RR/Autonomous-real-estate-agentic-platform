@@ -4,6 +4,8 @@ from backend.config import GEMINI_API_KEY, MODEL_NAME
 from backend.session_store import get_history, add_message
 from backend.tools import TOOL_DEFINITIONS, execute_tool
 from logger import get_logger, log_tool_fired
+import time
+
 logger = get_logger()
 import pathlib
 
@@ -55,21 +57,23 @@ def _history_to_contents(history: list) -> list:
         )
     return contents
 
+def _call_gemini_with_retry(client, model, contents, config, retries=3, delay=2):
+    for attempt in range(retries):
+        try:
+            return client.models.generate_content(
+                model=model,
+                contents=contents,
+                config=config
+            )
+        except Exception as e:
+            print(f"[Agent] Gemini call failed attempt {attempt + 1}: {e}")
+            if attempt < retries - 1:
+                time.sleep(delay)
+            else:
+                raise e
+
 
 def run_agent(session_id: str, user_message: str) -> dict:
-    """
-    Main agentic loop.
-
-    1. Load session history
-    2. Send to Gemini with system prompt + tools
-    3. If Gemini returns a tool call:
-       a. Execute tool via tools.py
-       b. Send result back to Gemini
-       c. Repeat until Gemini returns a text response
-    4. Save final response to history
-    5. Return response + whether conversation ended
-    """
-
     # Step 1: Build conversation history
     history = get_history(session_id)
     contents = _history_to_contents(history)
@@ -89,16 +93,13 @@ def run_agent(session_id: str, user_message: str) -> dict:
     while iteration < max_iterations:
         iteration += 1
 
-        response = client.models.generate_content(
-            model=MODEL_NAME,
-            contents=contents,
-            config=types.GenerateContentConfig(
+        response = _call_gemini_with_retry(
+            client, MODEL_NAME, contents,
+            types.GenerateContentConfig(
                 system_instruction=SYSTEM_PROMPT,
                 tools=_build_tools(),
                 tool_config=types.ToolConfig(
-                    function_calling_config=types.FunctionCallingConfig(
-                        mode="AUTO"
-                    )
+                    function_calling_config=types.FunctionCallingConfig(mode="AUTO")
                 )
             )
         )
