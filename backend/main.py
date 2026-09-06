@@ -27,9 +27,11 @@ app.add_middleware(
 def root():
     return FileResponse("frontend/index.html")
 
+
 @app.get("/style.css")
 def get_css():
     return FileResponse("frontend/style.css", media_type="text/css")
+
 
 @app.get("/app.js")
 def get_js():
@@ -56,7 +58,11 @@ def chat(request: ChatRequest):
         )
     except Exception as e:
         log_error(logger, request.session_id, e)
-        raise
+        return ChatResponse(
+            session_id=request.session_id,
+            response="I experienced a brief connection hiccup while processing that. Could you please ask that again?",
+            conversation_ended=False
+        )
 
 
 @app.post("/analytics", response_model=LeadAnalytics)
