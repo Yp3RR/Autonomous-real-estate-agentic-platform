@@ -2,9 +2,9 @@ import sqlite3
 import json
 from typing import List
 import os
+import pathlib
 
-DB_PATH = "sessions.db"
-
+DB_PATH = str(pathlib.Path(__file__).parent / "sessions.db")
 
 
 def _get_connection():
