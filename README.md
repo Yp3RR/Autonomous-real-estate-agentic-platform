@@ -90,6 +90,12 @@ northstar-ai-agent/
 ├── tests/
 │   └── TEST_CASES.md        # Conversation scenarios with expected vs actual output
 │
+├── logger.py            # Structured JSON logging
+├── evals.py             # Response quality evaluation
+├── Dockerfile           # Container config
+├── .dockerignore
+├── logs/
+│   └── northstar.log    # Structured log output
 ├── render.yaml              # Render deployment config
 ├── requirements.txt
 ├── .env.example
