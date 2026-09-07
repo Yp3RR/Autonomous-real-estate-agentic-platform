@@ -4,7 +4,7 @@ An agentic AI sales assistant for Northstar One, a residential project in Sector
 Built with FastAPI and Google Gemini — the agent autonomously qualifies leads, answers project queries, 
 books site visits via real tool calls, and generates structured lead analytics after every conversation.
 
-### Status: *Active development — frontend polish and production hardening in progress.*
+### Status: *Complete — deployed and containerized.*
 **Live:** (https://autonomous-real-estate-agentic-platform.onrender.com/)
  ---
 
@@ -50,12 +50,12 @@ agent is constrained to only state facts provided in the system prompt
 |---|-------------------------|
 | LLM | Google Gemini 3.6 Flash |
 | Backend | FastAPI (Python)        |
-| Session Memory | In-memory session store |
+| Session Memory | SQLite (persistent per session) |
 | Data Validation | Pydantic v2             |
+| Logging | Structured JSON logging (file + stdout) |
 | Frontend | HTML + CSS + Vanilla JS |
-| Deploy (backend) | Render                  |
-| Deploy (frontend) | Vercel                  |
-
+| Deploy | Render (backend + frontend) |
+| Containerization | Docker |
 ---
 ## Project Structure
 
@@ -204,7 +204,7 @@ Or test the API directly at `http://127.0.0.1:8000/docs`
 ---
 ## Key Assumptions
 
-- Session memory is in-memory — restarting the server clears all sessions (persistent DB planned)
+- Session memory is persisted to SQLite — restarting the server on free-tier hosting clears the DB (use hosted DB like Supabase for production)
 - Booking and availability are simulated — no real calendar or CRM integration
 - The agent never reveals it is an AI unless directly and sincerely asked
 - All project facts (pricing, area, amenities) are sourced only from the system prompt — no external data fetch
@@ -212,19 +212,11 @@ Or test the API directly at `http://127.0.0.1:8000/docs`
 ---
 ## Known Limitations
 
-- In-memory sessions do not survive server restarts
+- SQLite DB is ephemeral on Render free tier — resets on every redeploy (one-line fix: swap DB_PATH to a hosted Postgres/Supabase connection string)
+- Gemini free tier rate limits cause occasional response failures — retry logic implemented, paid tier recommended for production
 - No rate limiting on API endpoints (planned)
 - No authentication on session endpoints — any client can clear any session by ID
 - Analytics generation makes an additional Gemini API call — adds ~2s latency
-
----
-## Roadmap
-
-### In Progress
-- [ ] **Containerization** — Docker + docker-compose for local and production
-
-### Planned
-- [ ] **Rate limiting** — per-session request throttling
 
 ---
 
