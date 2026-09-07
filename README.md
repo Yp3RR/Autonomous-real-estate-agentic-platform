@@ -41,6 +41,14 @@ lead score (0–100), interest level, objections raised, conversation summary
 full conversation context maintained across multiple turns
 ### No hallucination: 
 agent is constrained to only state facts provided in the system prompt
+### Structured logging:
+every request, response, tool call, and error logged as JSON with session ID and duration
+### Guardrails:
+input and output validation to prevent prompt injection and off-topic responses
+### Evaluation framework:
+per-turn response quality scoring to measure agent reliability
+### Dockerized:
+fully containerized with Dockerfile for consistent local and cloud deployment
 
 ---
 
