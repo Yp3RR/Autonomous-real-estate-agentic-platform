@@ -33,7 +33,11 @@ IST = timezone(timedelta(hours=5, minutes=30))
 def get_auth_url() -> str:
     """Generate Google OAuth URL to redirect business client to."""
     flow = Flow.from_client_config(CLIENT_CONFIG, scopes=SCOPES, redirect_uri=REDIRECT_URI)
-    auth_url, _ = flow.authorization_url(prompt="consent", access_type="offline")
+    auth_url, _ = flow.authorization_url(
+        prompt="consent",
+        access_type="offline",
+        include_granted_scopes="true"
+    )
     return auth_url
 
 
@@ -42,6 +46,7 @@ def exchange_code_for_token(code: str) -> bool:
     try:
         flow = Flow.from_client_config(CLIENT_CONFIG, scopes=SCOPES, redirect_uri=REDIRECT_URI)
         flow.fetch_token(code=code)
+        flow.code_verifier = None
         creds = flow.credentials
 
         token_data = {
