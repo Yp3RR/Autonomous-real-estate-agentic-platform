@@ -36,6 +36,7 @@ def get_auth_url() -> str:
         scopes=SCOPES,
         redirect_uri=REDIRECT_URI
     )
+    flow.code_verifier = None
     # Ensure flow doesn't enforce PKCE verifier mismatch issues in simple server setups
     auth_url, _ = flow.authorization_url(
         prompt="consent",
@@ -53,6 +54,7 @@ def exchange_code_for_token(authorization_response_url: str) -> bool:
             scopes=SCOPES,
             redirect_uri=REDIRECT_URI
         )
+        flow.code_verifier = None
         # Pass the full callback URL so requests_oauthlib can extract the code and validate properly
         flow.fetch_token(authorization_response=authorization_response_url)
         creds = flow.credentials
