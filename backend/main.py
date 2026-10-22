@@ -2,11 +2,15 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from fastapi import HTTPException
 
 from backend.models import ChatRequest, ChatResponse, AnalyticsRequest, LeadAnalytics
 from backend.agent import run_agent
 from backend.session_store import clear_session
 from backend.analytics import generate_analytics
+from fastapi.responses import RedirectResponse
+from backend.calendar_service import get_auth_url, exchange_code_for_token
+from backend.config import ONBOARDING_KEY
 
 from logger import get_logger, log_request, log_response, log_error
 import time
@@ -43,6 +47,23 @@ def get_js():
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+@app.get("/onboarding")
+def onboarding(key: str = ""):
+    if key != ONBOARDING_KEY:
+        raise HTTPException(status_code=403, detail="Unauthorised")
+    return FileResponse("frontend/onboarding.html")
+
+@app.get("/auth/google")
+def auth_google():
+    return RedirectResponse(get_auth_url())
+
+@app.get("/calendar/callback")
+def calendar_callback(code: str):
+    success = exchange_code_for_token(code)
+    if success:
+        return {"message": "Calendar connected successfully!"}
+    raise HTTPException(status_code=400, detail="OAuth failed. Try again.")
 
 
 @app.post("/chat", response_model=ChatResponse)
