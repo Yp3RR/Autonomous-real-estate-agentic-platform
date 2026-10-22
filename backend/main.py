@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from fastapi import HTTPException
+from fastapi import Request
 
 from backend.models import ChatRequest, ChatResponse, AnalyticsRequest, LeadAnalytics
 from backend.agent import run_agent
@@ -59,8 +60,8 @@ def auth_google():
     return RedirectResponse(get_auth_url())
 
 @app.get("/calendar/callback")
-def calendar_callback(code: str):
-    success = exchange_code_for_token(code)
+def calendar_callback(request: Request):
+    success = exchange_code_for_token(str(request.url))
     if success:
         return {"message": "Calendar connected successfully!"}
     raise HTTPException(status_code=400, detail="OAuth failed. Try again.")
