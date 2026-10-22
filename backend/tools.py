@@ -1,39 +1,36 @@
-import random
-from datetime import datetime, timedelta
+# import random
+# from datetime import datetime, timedelta
+from backend.calendar_service import check_calendar_availability, book_calendar_appointment
+
 
 # ─── Tool Definitions
 
 TOOL_DEFINITIONS = [
     {
         "name": "check_availability",
-        "description": "Check available site visit slots for a given date and flat configuration.",
+        "description": "Check if a date and time slot is available for booking on the calendar.",
         "parameters": {
             "type": "object",
             "properties": {
-                "date": {
-                    "type": "string",
-                    "description": "Preferred visit date in YYYY-MM-DD format"
-                },
-                "config": {
-                    "type": "string",
-                    "description": "Flat configuration requested: '2BHK' or '3BHK'"
-                }
+                "date": {"type": "string", "description": "Date in YYYY-MM-DD format"},
+                "time": {"type": "string", "description": "Time in HH:MM 24hr format e.g. 14:00"}
             },
-            "required": ["date", "config"]
+            "required": ["date", "time"]
         }
     },
     {
         "name": "book_site_visit",
-        "description": "Book a site visit for the customer at Northstar One, Sector 79 Gurugram.",
+        "description": "Book a confirmed appointment on the calendar.",
         "parameters": {
             "type": "object",
             "properties": {
-                "name": {"type": "string", "description": "Customer's full name"},
-                "phone": {"type": "string", "description": "Customer's phone number"},
-                "date": {"type": "string", "description": "Visit date in YYYY-MM-DD format"},
-                "config": {"type": "string", "description": "2BHK or 3BHK"}
+                "name": {"type": "string", "description": "Customer full name"},
+                "phone": {"type": "string", "description": "Customer phone number"},
+                "date": {"type": "string", "description": "Date in YYYY-MM-DD format"},
+                "time": {"type": "string", "description": "Time in HH:MM 24hr format"},
+                "purpose": {"type": "string", "description": "Purpose of the appointment"}
             },
-            "required": ["name", "phone", "date", "config"]
+            "required": ["name", "phone", "date", "time"]
         }
     },
     {
@@ -77,44 +74,12 @@ TOOL_DEFINITIONS = [
 
 # Simulated Tool Implementations
 
-def check_availability(date: str, config: str) -> dict:
-    try:
-        visit_date = datetime.strptime(date, "%Y-%m-%d")
-        if visit_date < datetime.now():
-            return {"available": False, "reason": "Date is in the past."}
-    except ValueError:
-        return {"available": False, "reason": "Invalid date format."}
-
-    available = random.random() > 0.2
-    slots = ["10:00 AM", "12:00 PM", "3:00 PM"] if available else []
-
-    return {
-        "available": available,
-        "date": date,
-        "config": config,
-        "slots": slots,
-        "reason": None if available else "No slots available on this date."
-    }
+def check_availability(date: str, time: str) -> dict:
+    return check_calendar_availability(date, time)
 
 
-def book_site_visit(name: str, phone: str, date: str, config: str) -> dict:
-    success = random.random() > 0.15
-
-    if success:
-        return {
-            "booked": True,
-            "booking_id": f"NS-{random.randint(1000, 9999)}",
-            "name": name,
-            "date": date,
-            "config": config,
-            "location": "Northstar One, Sector 79, Gurugram",
-            "message": f"Site visit confirmed for {name} on {date}."
-        }
-    else:
-        return {
-            "booked": False,
-            "message": "Booking failed due to a system error. Please try a different date or contact our team directly."
-        }
+def book_site_visit(name: str, phone: str, date: str, time: str, purpose: str = "Appointment") -> dict:
+    return book_calendar_appointment(name, phone, date, time, purpose)
 
 
 def escalate_to_human(reason: str) -> dict:
