@@ -1,5 +1,6 @@
 from google import genai
 from google.genai import types
+from google.genai.types import FunctionCallingConfigMode
 from backend.config import GEMINI_API_KEY, MODEL_NAME
 from backend.session_store import get_history, add_message
 from backend.tools import TOOL_DEFINITIONS, execute_tool
@@ -57,7 +58,7 @@ def _history_to_contents(history: list) -> list:
         )
     return contents
 
-def _call_gemini_with_retry(client, model, contents, config, retries=3, delay=2):
+def _call_gemini_with_retry(client, model, contents, config, retries=2, delay=1):
     for attempt in range(retries):
         try:
             return client.models.generate_content(
@@ -74,11 +75,11 @@ def _call_gemini_with_retry(client, model, contents, config, retries=3, delay=2)
 
 
 def run_agent(session_id: str, user_message: str) -> dict:
-    add_message(session_id, "user", user_message)
-    # Step 1: Build conversation history
+    # Step 1: Build conversation history (fetch BEFORE adding current message)
     history = get_history(session_id)
     contents = _history_to_contents(history)
 
+    # Append current user message to Gemini context only (not saved to DB yet)
     contents.append(
         types.Content(
             role="user",
@@ -90,7 +91,9 @@ def run_agent(session_id: str, user_message: str) -> dict:
     max_iterations = 10
     iteration = 0
     response_text = ""
+    tools_fired = []
 
+    alltools = _build_tools()
     while iteration < max_iterations:
         iteration += 1
 
@@ -98,9 +101,9 @@ def run_agent(session_id: str, user_message: str) -> dict:
             client, MODEL_NAME, contents,
             types.GenerateContentConfig(
                 system_instruction=SYSTEM_PROMPT,
-                tools=_build_tools(),
+                tools=alltools,
                 tool_config=types.ToolConfig(
-                    function_calling_config=types.FunctionCallingConfig(mode="AUTO")
+                    function_calling_config=types.FunctionCallingConfig(mode=FunctionCallingConfigMode.AUTO)
                 )
             )
         )
@@ -126,6 +129,7 @@ def run_agent(session_id: str, user_message: str) -> dict:
                 print(f"[Agent] Tool call: {tool_name}({tool_args})")
 
                 result = execute_tool(tool_name, tool_args)
+                tools_fired.append(tool_name)
                 log_tool_fired(logger, session_id, tool_name, result)
 
                 tool_response_parts.append(
@@ -157,7 +161,7 @@ def run_agent(session_id: str, user_message: str) -> dict:
     if not response_text:
         response_text = "I'm sorry, something went wrong. Please try again."
 
-    # Step 3: Save to session history
+    # Step 3: Save to session history (once, here, after response is ready)
     try:
         add_message(session_id, "user", user_message)
         add_message(session_id, "model", response_text)
@@ -167,5 +171,6 @@ def run_agent(session_id: str, user_message: str) -> dict:
     # Step 4: Return
     return {
         "response": response_text,
-        "conversation_ended": _conversation_ended(response_text)
+        "conversation_ended": _conversation_ended(response_text),
+        "tools_fired": tools_fired
     }
