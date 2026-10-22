@@ -41,7 +41,7 @@ def get_auth_url() -> str:
     auth_url, _ = flow.authorization_url(
         prompt="consent",
         access_type="offline",
-        include_granted_scopes=True
+        # include_granted_scopes=True
     )
     return auth_url
 
