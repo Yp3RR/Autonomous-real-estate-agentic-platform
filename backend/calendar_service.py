@@ -1,6 +1,8 @@
 import json
 import pathlib
 from datetime import datetime, timedelta, timezone
+import urllib.parse
+import requests
 
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
@@ -31,41 +33,46 @@ IST = timezone(timedelta(hours=5, minutes=30))
 # ─── OAuth Flow ───────────────────────────────────────────────────────────────
 
 def get_auth_url() -> str:
-    flow = Flow.from_client_config(
-        CLIENT_CONFIG,
-        scopes=SCOPES,
-        redirect_uri=REDIRECT_URI
-    )
-    flow.code_verifier = None
-    # Ensure flow doesn't enforce PKCE verifier mismatch issues in simple server setups
-    auth_url, _ = flow.authorization_url(
-        prompt="consent",
-        access_type="offline",
-        # include_granted_scopes=True
-    )
-    return auth_url
+    """Manually construct Google OAuth URL without PKCE baggage."""
+    params = {
+        "client_id": GOOGLE_CLIENT_ID,
+        "redirect_uri": REDIRECT_URI,
+        "response_type": "code",
+        "scope": " ".join(SCOPES),
+        "access_type": "offline",
+        "prompt": "consent"
+    }
+    query_string = urllib.parse.urlencode(params)
+    return f"https://accounts.google.com/o/oauth2/v2/auth?{query_string}"
 
 
-def exchange_code_for_token(authorization_response_url: str) -> bool:
-    """Exchange full callback URL for access + refresh tokens and store them."""
+def exchange_code_for_token(code: str) -> bool:
+    """Directly trade auth code for tokens via Google's token endpoint."""
     try:
-        flow = Flow.from_client_config(
-            CLIENT_CONFIG,
-            scopes=SCOPES,
-            redirect_uri=REDIRECT_URI
-        )
-        flow.code_verifier = None
-        # Pass the full callback URL so requests_oauthlib can extract the code and validate properly
-        flow.fetch_token(authorization_response=authorization_response_url)
-        creds = flow.credentials
+        token_url = "https://oauth2.googleapis.com/token"
+        payload = {
+            "code": code,
+            "client_id": GOOGLE_CLIENT_ID,
+            "client_secret": GOOGLE_CLIENT_SECRET,
+            "redirect_uri": REDIRECT_URI,
+            "grant_type": "authorization_code"
+        }
 
+        response = requests.post(token_url, data=payload)
+        token_json = response.json()
+
+        if response.status_code != 200:
+            print(f"[Calendar] Token exchange API error: {token_json}")
+            return False
+
+        # Build clean token structure for Google Credentials class compatibility
         token_data = {
-            "token": creds.token,
-            "refresh_token": creds.refresh_token,
-            "token_uri": creds.token_uri,
-            "client_id": creds.client_id,
-            "client_secret": creds.client_secret,
-            "scopes": list(creds.scopes) if creds.scopes else SCOPES
+            "token": token_json.get("access_token"),
+            "refresh_token": token_json.get("refresh_token"),
+            "token_uri": token_url,
+            "client_id": GOOGLE_CLIENT_ID,
+            "client_secret": GOOGLE_CLIENT_SECRET,
+            "scopes": SCOPES
         }
         TOKEN_PATH.write_text(json.dumps(token_data))
         return True
