@@ -8,7 +8,7 @@ from backend.calendar_service import check_calendar_availability, book_calendar_
 TOOL_DEFINITIONS = [
     {
         "name": "check_availability",
-        "description": "Check if a date and time slot is available for booking on the calendar.",
+        "description": "Check if a time slot is available for booking. Available slots are 10:00, 11:30, 13:00, 15:00, 16:30. Always check availability before booking.",
         "parameters": {
             "type": "object",
             "properties": {
