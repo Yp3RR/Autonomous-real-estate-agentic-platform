@@ -74,6 +74,7 @@ northstar-ai-agent/
 │   ├── main.py              # FastAPI app — all routes
 │   ├── agent.py             # Agentic loop — Gemini + tool call handling
 │   ├── tools.py             # Tool definitions + simulated implementations
+│   ├── calender_service.py  # slot checking and booking
 │   ├── session_store.py     # In-memory conversation history per session
 │   ├── analytics.py         # Post-conversation lead analytics generator
 │   ├── models.py            # Pydantic request/response schemas
@@ -84,6 +85,7 @@ northstar-ai-agent/
 │
 ├── frontend/
 │   ├── index.html           # Chat UI
+│   ├── onboarding.html           # onboarding UI
 │   ├── style.css            # Styling
 │   └── app.js               # API calls, message rendering, analytics modal
 │
