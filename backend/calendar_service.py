@@ -120,7 +120,15 @@ def _parse_datetime(date: str, time: str) -> datetime:
 
 # ─── Calendar Tools ───────────────────────────────────────────────────────────
 
+AVAILABLE_SLOTS = ["10:00", "11:30", "13:00", "15:00", "16:30"]
+
 def check_calendar_availability(date: str, time: str) -> dict:
+    # First check if time is within allowed slots
+    if time not in AVAILABLE_SLOTS:
+        return {
+            "available": False,
+            "reason": f"Appointments are only available at: {', '.join(AVAILABLE_SLOTS)}. Please choose one of these times."
+        }
     """Check if a given date+time slot is free on the business calendar."""
     try:
         service = _get_service()
