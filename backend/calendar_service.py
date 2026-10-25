@@ -121,8 +121,17 @@ def _parse_datetime(date: str, time: str) -> datetime:
 # ─── Calendar Tools ───────────────────────────────────────────────────────────
 
 AVAILABLE_SLOTS = ["10:00", "11:30", "13:00", "15:00", "16:30"]
+def _normalize_time(time: str) -> str:
+    """Convert any time format to HH:MM 24hr."""
+    for fmt in ["%H:%M", "%I:%M %p", "%I:%M%p", "%I %p"]:
+        try:
+            return datetime.strptime(time.strip().upper(), fmt).strftime("%H:%M")
+        except ValueError:
+            continue
+    return time
 
 def check_calendar_availability(date: str, time: str) -> dict:
+    time = _normalize_time(time)
     # First check if time is within allowed slots
     if time not in AVAILABLE_SLOTS:
         return {
