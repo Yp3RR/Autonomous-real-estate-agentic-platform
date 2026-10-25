@@ -8,7 +8,7 @@ from backend.calendar_service import check_calendar_availability, book_calendar_
 TOOL_DEFINITIONS = [
     {
         "name": "check_availability",
-        "description": "Check if a time slot is available for booking. Available slots are 10:00, 11:30, 13:00, 15:00, 16:30. Always check availability before booking.",
+        "description": "Check if a time slot is available for booking. Available slots are 10:00, 11:30, 13:00, 15:00, 16:30.Time in HH:MM 24hr format only. 10 AM = 10:00, 11:30 AM = 11:30, 1 PM = 13:00, 3 PM  = 15.30, 4.30 PM = 16.30. user may input time formats in other ways too, understand it properly. Always check availability before booking.",
         "parameters": {
             "type": "object",
             "properties": {
