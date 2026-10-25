@@ -1,62 +1,50 @@
-import sqlite3
 import json
 from typing import List
-import os
-import pathlib
-
-DB_PATH = str(pathlib.Path(__file__).parent / "sessions.db")
-
-
-def _get_connection():
-    print(f"[DB] Creating/connecting at: {os.path.abspath(DB_PATH)}")
-    conn = sqlite3.connect(DB_PATH)
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS sessions (
-            session_id TEXT NOT NULL,
-            role TEXT NOT NULL,
-            parts TEXT NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    """)
-    conn.commit()
-    return conn
+from backend.database import get_connection
 
 
 def get_history(session_id: str) -> List[dict]:
-    conn = _get_connection()
-    cursor = conn.execute(
-        "SELECT role, parts FROM sessions WHERE session_id = ? ORDER BY created_at",
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT role, parts FROM sessions WHERE session_id = %s ORDER BY created_at",
         (session_id,)
     )
-    rows = cursor.fetchall()
+    rows = cur.fetchall()
+    cur.close()
     conn.close()
-    return [{"role": row[0], "parts": json.loads(row[1])} for row in rows]
+    return [{"role": row["role"], "parts": json.loads(row["parts"])} for row in rows]
 
 
 def add_message(session_id: str, role: str, text: str):
-    print(f"[DB] add_message called: {role} - {text[:30]}", flush=True)
-    conn = _get_connection()
-    conn.execute(
-        "INSERT INTO sessions (session_id, role, parts) VALUES (?, ?, ?)",
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO sessions (session_id, role, parts) VALUES (%s, %s, %s)",
         (session_id, role, json.dumps([text]))
     )
     conn.commit()
+    cur.close()
     conn.close()
 
 
 def clear_session(session_id: str):
-    conn = _get_connection()
-    conn.execute("DELETE FROM sessions WHERE session_id = ?", (session_id,))
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("DELETE FROM sessions WHERE session_id = %s", (session_id,))
     conn.commit()
+    cur.close()
     conn.close()
 
 
 def session_exists(session_id: str) -> bool:
-    conn = _get_connection()
-    cursor = conn.execute(
-        "SELECT 1 FROM sessions WHERE session_id = ? LIMIT 1",
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT 1 FROM sessions WHERE session_id = %s LIMIT 1",
         (session_id,)
     )
-    exists = cursor.fetchone() is not None
+    exists = cur.fetchone() is not None
+    cur.close()
     conn.close()
     return exists
