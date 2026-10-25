@@ -131,7 +131,9 @@ def _normalize_time(time: str) -> str:
     return time
 
 def check_calendar_availability(date: str, time: str) -> dict:
+    print(f"[Calendar] check_availability called with date={date} time={time}", flush=True)
     time = _normalize_time(time)
+    print(f"[Calendar] normalized time={time}, available slots={AVAILABLE_SLOTS}", flush=True)
     # First check if time is within allowed slots
     if time not in AVAILABLE_SLOTS:
         return {
