@@ -11,15 +11,24 @@ from backend.analytics import generate_analytics
 from fastapi.responses import RedirectResponse
 from backend.calendar_service import get_auth_url, exchange_code_for_token
 from backend.config import ONBOARDING_KEY
+from backend.database import init_db
 
 from logger import get_logger, log_request, log_response, log_error
+from contextlib import asynccontextmanager
 import time
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
 logger = get_logger()
 
-app = FastAPI(title="Northstar AI Agent", version="1.0.0")
+# app = FastAPI(title="Northstar AI Agent", version="1.0.0")
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    init_db()
+    yield
+
+app = FastAPI(title="Northstar AI Agent", version="1.0.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
