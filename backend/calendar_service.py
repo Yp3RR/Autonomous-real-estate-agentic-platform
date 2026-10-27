@@ -111,12 +111,10 @@ def _get_service():
     """Build and return Google Calendar API service."""
     return build("calendar", "v3", credentials=_get_credentials())
 
-
 def _parse_datetime(date: str, time: str) -> datetime:
     """Parse date (YYYY-MM-DD) and time (HH:MM) into IST-aware datetime."""
     dt = datetime.strptime(f"{date} {time}", "%Y-%m-%d %H:%M")
     return dt.replace(tzinfo=IST)
-
 
 # ─── Calendar Tools ───────────────────────────────────────────────────────────
 
