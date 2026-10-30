@@ -138,7 +138,7 @@ def check_calendar_availability(date: str, time: str) -> dict:
             "available": False,
             "reason": f"Appointments are only available at: {', '.join(AVAILABLE_SLOTS)}. Please choose one of these times."
         }
-    """Check if a given date+time slot is frqee on the business calendar."""
+    """Check if a given date+time slot is free on the business calendar."""
     try:
         service = _get_service()
 
